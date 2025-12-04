@@ -1,0 +1,44 @@
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+
+# Node dependencies
+node_modules
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ESLint
+eslint.config.mjs
+
+# Misc
+.DS_Store
+.fleet
+.idea
+.vscode
+*.swp
+*.swo
+*~
+
+# Local env files
+.env
+.env.*
+!.env.example
+
+# Test coverage
+coverage
+.nyc_output
+
+# Temporary files
+.temp
+.tmp
