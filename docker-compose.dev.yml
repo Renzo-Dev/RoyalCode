@@ -1,0 +1,35 @@
+services:
+  # Frontend - Nuxt 4 приложение (режим разработки)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: RoyalCode-frontend-dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - NUXT_HOST=0.0.0.0
+      - NUXT_PORT=3000
+    volumes:
+      - ./frontend:/app
+    networks:
+      - RoyalCode-network
+    # command: npm run dev  # убрано для ручного запуска
+
+  # Nginx - реверс-прокси
+  nginx:
+    image: nginx:alpine
+    container_name: RoyalCode-nginx-dev
+    ports:
+      - "80:80"
+    volumes:
+      - ./services/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+    networks:
+      - RoyalCode-network
+
+networks:
+  RoyalCode-network:
+    driver: bridge

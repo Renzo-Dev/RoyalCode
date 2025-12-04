@@ -1,0 +1,39 @@
+services:
+  # Frontend - Nuxt 4 приложение
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: RoyalCode-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - NUXT_HOST=0.0.0.0
+      - NUXT_PORT=3000
+    # Для разработки раскомментируйте volumes ниже
+    volumes:
+      - ./frontend/src:/app
+    # nodemon автоматически запускается через Dockerfile
+    networks:
+      - RoyalCode-network
+    restart: unless-stopped
+
+  # Nginx - реверс-прокси
+  nginx:
+    image: nginx:alpine
+    container_name: RoyalCode-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./services/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+    networks:
+      - RoyalCode-network
+    restart: unless-stopped
+
+networks:
+  RoyalCode-network:
+    driver: bridge
